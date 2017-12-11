@@ -8,6 +8,19 @@ var app = new Vue({
 			{id: 1, name: "Criar Conta"}
 		],
 		activedView: 1,
+		bill: {
+			date_due: '',
+			name: '',
+			value: 0
+		},
+		names: [
+			'Conta de luz',
+			'Conta de água',
+			'Conta de telefone',
+			'Condomínio',
+			'Mercado',
+			'Gasolina'
+		],
 		bills: [
 			{due_date: '20/08/2016', name: 'Conta de luz', value: 81.86, done: 1},
 			{due_date: '21/08/2016', name: 'Conta de água', value: 70.99, done: 0},
@@ -33,6 +46,10 @@ var app = new Vue({
 			console.log(id);
 			this.activedView = id;
 			this.test = "xpto";
+		},
+		submit: function(){
+			this.bills.push(this.bill);
+			this.activedView = 0;
 		}
 	}
 });
