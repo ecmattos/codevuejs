@@ -1,12 +1,13 @@
 var app = new Vue({
 	el: "#app",
 	data: {
+		test: '',
 		title: "Contas a Receber",
 		menus: [
 			{id: 0, name: "Listar Contas"},
 			{id: 1, name: "Criar Conta"}
 		],
-		activedView: 0,
+		activedView: 1,
 		bills: [
 			{due_date: '20/08/2016', name: 'Conta de luz', value: 81.86, done: 1},
 			{due_date: '21/08/2016', name: 'Conta de água', value: 70.99, done: 0},
@@ -31,6 +32,7 @@ var app = new Vue({
 		showView: function(id){
 			console.log(id);
 			this.activedView = id;
+			this.test = "xpto";
 		}
 	}
 });
