@@ -44,6 +44,8 @@
 							{{ o.done | doneLabel }}</td>
 						<td>
 							<a href="#" @click.prevent="loadBill(o)">Editar</a>
+							|
+							<a href="#" @click.prevent="destroyBill(o)">Excluir</a>
 						</td>
 					</tr>
 				</tbody>

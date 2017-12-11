@@ -69,6 +69,11 @@ var app = new Vue({
 			this.bill = bill;
 			this.activedView = 1;
 			this.formType = 'update';
+		},
+		destroyBill: function (bill) {
+			this.bill = bill;
+			this.activedView = 1;
+			this.formType = 'destroy';
 		}
 	}
 });
