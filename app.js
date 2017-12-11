@@ -11,7 +11,8 @@ var app = new Vue({
 		bill: {
 			date_due: '',
 			name: '',
-			value: 0
+			value: 0,
+			done: 0
 		},
 		names: [
 			'Conta de luz',
@@ -38,7 +39,7 @@ var app = new Vue({
 					count++;
 				}
 			}
-			return !count?"Nenhuma Conta a pagar":"Existe(m) contas " + count + " a pagar";
+			return !count?"Nenhuma Conta a pagar":"Existe(m) " + count + " contas a pagar";
 		}
 	},
 	methods: {
