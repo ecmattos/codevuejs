@@ -73,6 +73,10 @@ var app = new Vue({
 	}
 });
 
-app.$watch('test', function(novoValor, velhoValor){
-	console.log("velhoValor: " + velhoValor + ", novoValor: " + novoValor);
-})
+Vue.filter('doneLabel', function(done){
+	if(done == 0){
+		return "Não Paga"
+	}else{
+		return "Paga"
+	}
+});
