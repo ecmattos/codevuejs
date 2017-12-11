@@ -8,6 +8,7 @@ var app = new Vue({
 			{id: 1, name: "Criar Conta"}
 		],
 		activedView: 1,
+		formType: 'insert',
 		bill: {
 			date_due: '',
 			name: '',
@@ -39,18 +40,35 @@ var app = new Vue({
 					count++;
 				}
 			}
-			return !count?"Nenhuma Conta a pagar":"Existe(m) " + count + " contas a pagar";
+			return !count?"Nenhuma Conta a pagar":"Existe(m) " + count + " Contas a Pagar";
 		}
 	},
 	methods: {
 		showView: function(id){
 			console.log(id);
 			this.activedView = id;
-			this.test = "xpto";
+			if(id ==1){
+				this.formType = 'insert';
+			}
 		},
 		submit: function(){
-			this.bills.push(this.bill);
+			if(this.formType == 'insert'){
+				this.bills.push(this.bill);
+			}
+			
+			this.bill = {
+				date_due: '',
+				name: '',
+				value: 0,
+				done: 0
+			};
+			
 			this.activedView = 0;
+		},
+		loadBill: function (bill) {
+			this.bill = bill;
+			this.activedView = 1;
+			this.formType = 'update';
 		}
 	}
 });
