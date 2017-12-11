@@ -25,7 +25,7 @@ var app = new Vue({
 					count++;
 				}
 			}
-			return !count?"Nenhuma Conta a pagar":"Existe(m) " + count + " a pagar";
+			return !count?"Nenhuma Conta a pagar":"Existe(m) contas " + count + " a pagar";
 		}
 	},
 	methods: {
@@ -36,3 +36,7 @@ var app = new Vue({
 		}
 	}
 });
+
+app.$watch('test', function(novoValor, velhoValor){
+	console.log("velhoValor: " + velhoValor + ", novoValor: " + novoValor);
+})
