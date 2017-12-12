@@ -29,18 +29,51 @@ var app = new Vue({
 			{due_date: '22/08/2016', name: 'Conta de telefone', value: 70.99, done: 0},
 			{due_date: '22/08/2016', name: 'Condomínio', value: 170.87, done: 0},
 			{due_date: '23/08/2016', name: 'Mercado', value: 70.99, done: 1},
-			{due_date: '24/08/2016', name: 'Gasolina', value: 45.45, done: 0}
+			{due_date: '24/08/2016', name: 'Gasolina', value: 45.45, done: 1}
 		]
+
 	},
 	computed: {
 		status: function(){
-			var count = 0;
+			var bills_count = 0;
+			var bills_paid_count = 0;
+			var bills_no_paid_count = 0;
+
+			// bills_count = bills_paid_count + bills_no_paid_count
+
 			for(var i in this.bills){
+				bills_count++;
+
 				if(!this.bills[i].done){
-					count++;
+					bills_no_paid_count++;
+				}
+				else{
+					bills_paid_count++;
 				}
 			}
-			return !count?"Nenhuma Conta a pagar":"Existe(m) " + count + " Contas a Pagar";
+			
+			if(bills_count == 0){
+				return {
+					msg: "NENHUMA Conta cadastrada",
+					isbills_no_registered: true
+				}	
+			} 
+
+			if(bills_no_paid_count > 0){
+				return {
+					msg: "Existe(m) " + bills_no_paid_count + " Contas a Pagar",
+					isbills_no_paid: true	
+				}
+			}
+
+			if(bills_count == bills_paid_count){
+				return {
+					msg: "Nenhuma Conta a PAGAR",
+					isbills_paid: true
+				}
+			}	
+
+			console.log(TESTE);		
 		}
 	},
 	methods: {
@@ -70,11 +103,14 @@ var app = new Vue({
 			this.activedView = 1;
 			this.formType = 'update';
 		},
-		destroyBill: function (bill) {
-			this.bill = bill;
-			this.activedView = 1;
-			this.formType = 'destroy';
-		}
+		destroyBill: function(index) {
+            var accepted = confirm('Deseja realmente EXCLUIR esta conta ?');
+            if(accepted) {
+              	this.bills.splice(index, 1);
+               	this.activedView = 0;
+				this.formType = 'destroy';
+            }
+        }
 	}
 });
 

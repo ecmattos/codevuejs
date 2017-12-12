@@ -7,12 +7,17 @@
 			.pago { color: green; }
 			.nao-pago { color: red; }
 			.minha-classe { background-color: burlywood; }
+			.class_isbills_paid { color: green; }
+			.class_isbills_no_registered { color: blue; }
+			.class_isbills_no_paid { color: red; }
 		</style>
 	</head>
 
 	<body id="app">
 		<h1>{{ title }}</h1>
-		<h3>{{ status }}</h3>
+		<div class="class_isbills_no_registered" :class="{'class_isbills_paid': status.isbills_paid, 'class_isbills_no_paid': status.isbills_no_paid}">
+			<h3>{{ status.msg }}</h3>
+		</div>
 
 		<nav>
 			<ul>
@@ -45,7 +50,7 @@
 						<td>
 							<a href="#" @click.prevent="loadBill(o)">Editar</a>
 							|
-							<a href="#" @click.prevent="destroyBill(o)">Excluir</a>
+							<a href="#" @click.prevent="destroyBill(index)">Excluir</a>
 						</td>
 					</tr>
 				</tbody>
