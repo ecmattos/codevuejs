@@ -35,6 +35,8 @@ var app = new Vue({
 	},
 	computed: {
 		status: function(){
+			var msg = '';
+			var className = '';
 			var bills_count = 0;
 			var bills_paid_count = 0;
 			var bills_no_paid_count = 0;
@@ -61,30 +63,30 @@ var app = new Vue({
 			if(bills_count == 0){
 				return {
 					msg: "NENHUMA Conta cadastrada",
-					//isbills_no_registered: true,
-					//isbills_no_paid: false,
-					//isbills_paid: false,
-					className: 'isbills_no_registered'
+					isbills_no_registered: true,
+					isbills_no_paid: false,
+					isbills_paid: false,
+					//className: 'isbills_no_registered'
 				}	
 			} 
 
 			if(bills_no_paid_count > 0){
 				return {
 					msg: "Existe(m) " + bills_no_paid_count + " Contas a Pagar",
-					//isbills_no_registered: false,
-					//isbills_no_paid: true,
-					//isbills_paid: false,
-					className: 'isbills_no_paid'
+					isbills_no_registered: false,
+					isbills_no_paid: true,
+					isbills_paid: false,
+					//className: 'isbills_no_paid'
 				}
 			}
 
 			if((bills_count > 0) && (bills_count == bills_paid_count)){
 				return {
 					msg: "Nenhuma Conta a PAGAR",
-					//isbills_no_registered: false,
-					//isbills_no_paid: false,
-					//isbills_paid: true,
-					className: 'isbills_paid'
+					isbills_no_registered: false,
+					isbills_no_paid: false,
+					isbills_paid: true,
+					//className: 'isbills_paid'
 				}
 			}
 		}
@@ -129,8 +131,8 @@ var app = new Vue({
 
 Vue.filter('doneLabel', function(done){
 	if(done == 0){
-		return "Não Paga"
+		return "Não"
 	}else{
-		return "Paga"
+		return "Sim"
 	}
 });

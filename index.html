@@ -8,19 +8,15 @@
 			.nao-pago { color: red; }
 			.minha-classe { background-color: burlywood; }
 			.class_isbills_paid { color: green; }
-			.class_isbills_no_registered { color: blue; }
+			.class_isbills_no_registered { color: #696969; }
 			.class_isbills_no_paid { color: red; }
 		</style>
 	</head>
 
 	<body id="app">
 		<h1>{{ title }}</h1>
-		className: {{ status.className }}
-
-		<div :class="{{ 'status.className' }}">
-			<h3>{{ status.msg }}</h3>
-		</div>
-
+		<h3 :class="{'class_isbills_no_registered':status.isbills_no_registered, 'class_isbills_paid':status.isbills_paid, 'class_isbills_no_paid':status.isbills_no_paid}">{{ status.msg }}</h3>
+		
 		<nav>
 			<ul>
 				<li v-for="o in menus">
@@ -48,7 +44,9 @@
 						<td>{{ o.name }}</td>
 						<td>{{ o.value | currency 'R$ ' 2}}</td>
 						<td class="minha-classe" :class="{'pago': o.done, 'nao-pago': !o.done}">
-							{{ o.done | doneLabel }}</td>
+							<input type="checkbox" v-model="o.done">
+							{{ o.done | doneLabel }}
+						</td>
 						<td>
 							<a href="#" @click.prevent="loadBill(o)">Editar</a>
 							|
