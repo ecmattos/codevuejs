@@ -39,7 +39,13 @@ var app = new Vue({
 			var bills_paid_count = 0;
 			var bills_no_paid_count = 0;
 
+			//
+			// bill_count -----------> Total de contas CADASTRADAS
+			// bills_paid_count -----> Total de contas PAGAS
+			// bills_no_paid_count --> Total de contas NAO PAGAS
+			//
 			// bills_count = bills_paid_count + bills_no_paid_count
+			//
 
 			for(var i in this.bills){
 				bills_count++;
@@ -55,25 +61,32 @@ var app = new Vue({
 			if(bills_count == 0){
 				return {
 					msg: "NENHUMA Conta cadastrada",
-					isbills_no_registered: true
+					//isbills_no_registered: true,
+					//isbills_no_paid: false,
+					//isbills_paid: false,
+					className: 'isbills_no_registered'
 				}	
 			} 
 
 			if(bills_no_paid_count > 0){
 				return {
 					msg: "Existe(m) " + bills_no_paid_count + " Contas a Pagar",
-					isbills_no_paid: true	
+					//isbills_no_registered: false,
+					//isbills_no_paid: true,
+					//isbills_paid: false,
+					className: 'isbills_no_paid'
 				}
 			}
 
-			if(bills_count == bills_paid_count){
+			if((bills_count > 0) && (bills_count == bills_paid_count)){
 				return {
 					msg: "Nenhuma Conta a PAGAR",
-					isbills_paid: true
+					//isbills_no_registered: false,
+					//isbills_no_paid: false,
+					//isbills_paid: true,
+					className: 'isbills_paid'
 				}
-			}	
-
-			console.log(TESTE);		
+			}
 		}
 	},
 	methods: {

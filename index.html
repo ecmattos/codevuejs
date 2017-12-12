@@ -15,7 +15,9 @@
 
 	<body id="app">
 		<h1>{{ title }}</h1>
-		<div class="class_isbills_no_registered" :class="{'class_isbills_paid': status.isbills_paid, 'class_isbills_no_paid': status.isbills_no_paid}">
+		className: {{ status.className }}
+
+		<div :class="{{ 'status.className' }}">
 			<h3>{{ status.msg }}</h3>
 		</div>
 
