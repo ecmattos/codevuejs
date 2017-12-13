@@ -10,7 +10,6 @@ Vue.filter('statusGeneral', function(value){
 	if(value === false){
 		return "Nenhuma CONTA cadastrada";
 	}
-
 	if(!value){
 		return "Nenhuma conta A PAGAR";
 	}else{
@@ -38,18 +37,22 @@ var menuComponent = Vue.extend({
 	},
 	methods: {
 		showView: function(id){
-			console.log(id);
-			this.$parent.activedView = id;
-			if(id ==1){
-				this.$parent.formType = 'insert';
+			this.$dispatch('change-activedview', id);
+			if(id == 1){
+				this.$dispatch('change-formtype', 'insert');
 			}
 		}
 	}
 });
-Vue.component('menu-component', menuComponent);
 
 var billListComponent = Vue.extend({
 	template: `
+		<style type="text/css">
+			.pago { color: green; }
+			.nao-pago { color: red; }
+			.minha-classe { background-color: burlywood; }
+		</style>
+
 		<table border="1" cellpadding="10">
 			<thead>
 				<tr>
@@ -94,26 +97,100 @@ var billListComponent = Vue.extend({
 	},
 	methods: {
 		loadBill: function (bill) {
-			this.bill = bill;
-			this.activedView = 1;
-			this.formType = 'update';
+			this.$dispatch('change-bill', bill);
+			this.$dispatch('change-activedview', 1);
+			this.$dispatch('change-formtype', 'update');
 		},
 		deleteBill: function(bill) {
             if(confirm('Deseja realmente EXCLUIR esta conta ?')){
             	this.bills.$remove(bill);
-				this.formType = 'destroy';
-            }
+			}
         }
+	},
+	events: {
+		'new-bill': function(bill){
+			this.bills.push(bill);
+		}
 	}
 });
-Vue.component('bill-list-component', billListComponent);
+
+var billCreateComponent = Vue.extend({
+	template: `
+		<form name="form" @submit.prevent="submit">
+			<label>Vencimento:</label>
+				<input type="text" v-model="bill.due_date">
+				<br>
+				<br>
+			<label>Nome:</label>
+				<select  v-model="bill.name">
+					<option v-for="o in names" :value="o">{{ o }}</option>
+				</select>
+				<br>
+				<br>
+			<label>Valor:</label>
+				<input type="text" v-model="bill.value">
+				<br>
+				<br>
+			<label>Pago ?:</label>
+				<input type="checkbox" v-model="bill.done">
+				<br>
+				<br>
+			<input type="submit" value="Enviar">
+		</form>
+	`,
+	data: function(){
+		return {
+			formType: 'insert',
+			names: [
+				'Conta de luz',
+				'Conta de água',
+				'Conta de telefone',
+				'Condomínio',
+				'Mercado',
+				'Gasolina'
+			],
+			bill:  {
+				date_due: '',
+				name: '',
+				value: 0,
+				done: false
+			}
+		};
+	},
+	methods: {
+		submit: function(){
+			if(this.formType == 'insert'){
+				this.$dispatch('new-bill', this.bill);
+			}
+			
+			this.bill = {
+				date_due: '',
+				name: '',
+				value: 0,
+				done: false
+			};
+			
+			this.$dispatch('change-activedview', 0);
+		}
+	},
+	events: {
+		'change-formtype': function(formType){
+			this.formType = formType;
+		},
+		'change-bill': function(bill){
+			this.bill = bill;
+		}
+	}
+});
 
 var appComponent = Vue.extend({
+	components: {
+		'menu-component': menuComponent,
+		'bill-list-component': billListComponent,
+		'bill-create-component': billCreateComponent
+	},
 	template: `
 		<style type="text/css">
-			.pago { color: green; }
-			.nao-pago { color: red; }
-			.minha-classe { background-color: burlywood; }
 			.green { color: green; }
 			.gray { color: gray; }
 			.red { color: red; }
@@ -125,65 +202,31 @@ var appComponent = Vue.extend({
 		<menu-component></menu-component>
 		
 
-		<div v-if="activedView==0">
-			<bill-list-component></bill-list-component>
+		<div v-show="activedView==0">
+			<bill-list-component v-ref:bill-list-component></bill-list-component>
 		</div>
 
-		<div v-if="activedView==1">
-			<form name="form" @submit.prevent="submit">
-				<label>Vencimento:</label>
-					<input type="text" v-model="bill.due_date">
-					<br>
-					<br>
-				<label>Nome:</label>
-					<select  v-model="bill.name">
-						<option v-for="o in names" :value="o">{{ o }}</option>
-					</select>
-					<br>
-					<br>
-				<label>Valor:</label>
-					<input type="text" v-model="bill.value">
-					<br>
-					<br>
-				<label>Pago ?:</label>
-					<input type="checkbox" v-model="bill.done">
-					<br>
-					<br>
-				<input type="submit" value="Enviar">
-			</form>
+		<div v-show="activedView==1">
+			<bill-create-component :bill.sync="bill"></bill-create-component>
 		</div>
 	`,
 	data: function(){
 		return {
-			test: '',
-			title: "Contas a Receber",
-			activedView: 1,
-			formType: 'insert',
-			bill: {
-				date_due: '',
-				name: '',
-				value: 0,
-				done: false
-			},
-			names: [
-				'Conta de luz',
-				'Conta de água',
-				'Conta de telefone',
-				'Condomínio',
-				'Mercado',
-				'Gasolina'
-			]
+			title: "Contas a Pagar",
+			activedView: 0
 		};
 	},
 	computed: {
 		status: function(){
-			if(!this.bills.length){
+			var billListComponent = this.$refs.billListComponent;
+
+			if(!billListComponent.bills.length){
 				return false;
 			}
 
 			var count = 0;
-			for(var i in this.bills){
-				if(!this.bills[i].done){
+			for(var i in billListComponent.bills){
+				if(!billListComponent.bills[i].done){
 					count++;
 				}
 			}
@@ -191,23 +234,23 @@ var appComponent = Vue.extend({
 		}
 	},
 	methods: {
-		submit: function(){
-			if(this.formType == 'insert'){
-				this.bills.push(this.bill);
-			}
-			
-			this.bill = {
-				date_due: '',
-				name: '',
-				value: 0,
-				done: 0
-			};
-			
-			this.activedView = 0;
+
+	},
+	events: {
+		'change-activedview': function(activedView){
+			this.activedView = activedView;
+		},
+		'change-formtype': function(formType){
+			this.$broadcast('change-formtype', formType);
+		},
+		'change-bill': function(bill){
+			this.$broadcast('change-bill', bill);
+		},
+		'new-bill': function(bill){
+			this.$broadcast('new-bill', bill);
 		}
 	}
 });
-
 Vue.component('app-component', appComponent);
 
 var app = new Vue({
