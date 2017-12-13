@@ -7,76 +7,16 @@
 			.pago { color: green; }
 			.nao-pago { color: red; }
 			.minha-classe { background-color: burlywood; }
-			.class_isbills_paid { color: green; }
-			.class_isbills_no_registered { color: #696969; }
-			.class_isbills_no_paid { color: red; }
+			.green { color: green; }
+			.gray { color: gray; }
+			.red { color: red; }
 		</style>
 	</head>
 
 	<body id="app">
-		<h1>{{ title }}</h1>
-		<h3 :class="{'class_isbills_no_registered':status.isbills_no_registered, 'class_isbills_paid':status.isbills_paid, 'class_isbills_no_paid':status.isbills_no_paid}">{{ status.msg }}</h3>
+
+		<app-component></app-component>
 		
-		<nav>
-			<ul>
-				<li v-for="o in menus">
-					<a href="#" @click.prevent="showView(o.id)">{{ o.name }}</a>
-				</li>
-			</ul>
-		</nav>
-
-		<div v-if="activedView==0">
-			<table border="1" cellpadding="10">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Vencimento</th>
-						<th>Nome</th>
-						<th>Valor</th>
-						<th>Paga ?</th>
-						<th>Ações</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="(index, o) in bills">
-						<td>{{ index + 1 }}</td>
-						<td>{{ o.due_date }}</td>
-						<td>{{ o.name }}</td>
-						<td>{{ o.value | currency 'R$ ' 2}}</td>
-						<td class="minha-classe" :class="{'pago': o.done, 'nao-pago': !o.done}">
-							<input type="checkbox" v-model="o.done">
-							{{ o.done | doneLabel }}
-						</td>
-						<td>
-							<a href="#" @click.prevent="loadBill(o)">Editar</a>
-							|
-							<a href="#" @click.prevent="destroyBill(index)">Excluir</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<div v-if="activedView==1">
-			<form name="form" @submit.prevent="submit">
-				<label>Vencimento:</label>
-					<input type="text" v-model="bill.due_date">
-					<br>
-					<br>
-				<label>Nome:</label>
-					<select  v-model="bill.name">
-						<option v-for="o in names" :value="o">{{ o }}</option>
-					</select>
-					<br>
-					<br>
-				<label>Valor:</label>
-					<input type="text" v-model="bill.value">
-					<br>
-					<br>
-				<input type="submit" value="Enviar">
-			</form>
-		</div>
-
 		<script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script>
 		<script type="text/javascript" src="app.js"></script>
 	</body>
