@@ -1,3 +1,4 @@
+/*
 Vue.filter('doneLabel', function(done){
 	if(done == 0){
 		return "Não"
@@ -256,4 +257,28 @@ Vue.component('app-component', appComponent);
 var app = new Vue({
 	el: "#app",	
 });
+*/
 
+var pagina1 = Vue.extend({
+	template: 'pagina 1'
+});
+
+var pagina2 = Vue.extend({
+	template: 'pagina 2'
+});
+
+var app = Vue.extend({
+});
+
+var router = new VueRouter();
+
+router.map({
+	'/pagina1': {
+		component: pagina1
+	},
+	'/pagina2': {
+		component: pagina2
+	}
+});
+
+router.start(app, '#app');
