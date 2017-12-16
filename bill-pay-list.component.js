@@ -1,4 +1,4 @@
-window.billListComponent = Vue.extend({
+window.billPayListComponent = Vue.extend({
 	template: `
 		<style type="text/css">
 			.pago { color: green; }

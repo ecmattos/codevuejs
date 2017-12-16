@@ -2,9 +2,9 @@ var router = new VueRouter();
 
 mainComponent = Vue.extend({
 	components: {
-		'app-component': appComponent
+		'bill-pay-component': billPayComponent
 	},
-	template: '<app-component></app-component',
+	template: '<bill-pay-component></bill-pay-component',
 	data: function(){
 		return {
 			bills: [
@@ -22,18 +22,18 @@ mainComponent = Vue.extend({
 router.map({
 	'/bills': {
 		name: 'bill.list',
-		component: billListComponent
+		component: billPayListComponent
 	},
 	'/bill/create': {
 		name: 'bill.create',
-		component: billCreateComponent
+		component: billPayCreateComponent
 	},
 	'/bill/:index/update': {
 		name: 'bill.update',
-		component: billCreateComponent
+		component: billPayCreateComponent
 	},
 	'*': {
-		component: billListComponent
+		component: billPayListComponent
 	}
 });
 

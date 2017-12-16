@@ -1,4 +1,4 @@
-window.billCreateComponent = Vue.extend({
+window.billPayCreateComponent = Vue.extend({
 	template: `
 		<form name="form" @submit.prevent="submit">
 			<label>Vencimento:</label>
@@ -44,7 +44,7 @@ window.billCreateComponent = Vue.extend({
 	created: function(){
 		if(this.$route.name == 'bill.update'){
 			this.formType = 'update';
-			this.getBill(this.$route.$params.index);
+			this.getBill(this.$route.params.index);
 		}
 	},
 	methods: {
