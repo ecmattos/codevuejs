@@ -50,7 +50,7 @@ window.billPayCreateComponent = Vue.extend({
 	methods: {
 		submit: function(){
 			if(this.formType == 'insert'){
-				this.$root.$children[0].bills.push(this.bill);
+				this.$root.$children[0].billsPay.push(this.bill);
 			}
 			
 			this.bill = {
@@ -62,7 +62,7 @@ window.billPayCreateComponent = Vue.extend({
 			this.$router.go({name: 'bill.list'});
 		},
 		getBill: function(index){
-			var bills = this.$root.$children[0].bills;
+			var bills = this.$root.$children[0].billsPay;
 			this.bill = bills[index];
 		}
 	},

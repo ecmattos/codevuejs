@@ -1,6 +1,7 @@
-window.billPayComponent = Vue.extend({
+window.billReceiveComponent = Vue.extend({
+	
 	components: {
-		'menu-component': billPayMenuComponent
+		'menu-component': billReceiveMenuComponent
 	},
 	template: `
 		<style type="text/css">
@@ -8,8 +9,9 @@ window.billPayComponent = Vue.extend({
 			.gray { color: gray; }
 			.red { color: red; }
 		</style>
-
+			
 		<h1>{{ title }}</h1>
+		
 		<h3 :class="{'gray':status === false, 'green':status === 0, 'red':status > 0}">{{ status | statusGeneral }}</h3>
 		
 		<menu-component></menu-component>
@@ -17,13 +19,14 @@ window.billPayComponent = Vue.extend({
 	`,
 	data: function(){
 		return {
-			title: "Contas a Pagar"
+			title: "Contas a Receber"
 		};
 	},
+	
 	computed: {
 		status: function(){
 
-			var bills = this.$root.$children[0].bills;
+			var bills = this.$root.$children[0].billsReceive;
 
 			if(!bills.length){
 				return false;

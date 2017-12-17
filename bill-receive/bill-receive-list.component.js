@@ -1,4 +1,4 @@
-window.billPayListComponent = Vue.extend({
+window.billReceiveListComponent = Vue.extend({
 	template: `
 		<style type="text/css">
 			.pago { color: green; }
@@ -28,7 +28,7 @@ window.billPayListComponent = Vue.extend({
 						{{ o.done | doneLabel }}
 					</td>
 					<td>
-						<a v-link="{name: 'bill.update', params: {index:index}}">Editar</a>
+						<a v-link="{name: 'bill-receive.update', params: {index:index}}">Editar</a>
 						|
 						<a href="#" @click.prevent="deleteBill(o)">Excluir</a>
 					</td>
@@ -38,13 +38,13 @@ window.billPayListComponent = Vue.extend({
 	`,
 	data: function(){
 		return {
-			bills: this.$root.$children[0].bills
+			bills: this.$root.$children[0].billsReceive
 		};
 	},
 	methods: {
 		deleteBill: function(bill) {
             if(confirm('Deseja realmente EXCLUIR esta conta ?')){
-            	this.bills.$remove(bill);
+            	this.$root.$children[0].billsReceive.$remove(bill);
 			}
         }
 	}
