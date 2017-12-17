@@ -1,5 +1,4 @@
 window.billReceiveComponent = Vue.extend({
-	
 	components: {
 		'menu-component': billReceiveMenuComponent
 	},
@@ -22,7 +21,6 @@ window.billReceiveComponent = Vue.extend({
 			title: "Contas a Receber"
 		};
 	},
-	
 	computed: {
 		status: function(){
 
