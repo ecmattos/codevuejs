@@ -20,15 +20,14 @@ window.billPayListComponent = Vue.extend({
 			<tbody>
 				<tr v-for="(index, o) in bills">
 					<td>{{ index + 1 }}</td>
-					<td>{{ o.due_date }}</td>
+					<td>{{ o.date_due }}</td>
 					<td>{{ o.name }}</td>
 					<td>{{ o.value | currency 'R$ ' 2}}</td>
 					<td class="minha-classe" :class="{'pago': o.done, 'nao-pago': !o.done}">
-						<input type="checkbox" v-model="o.done">
 						{{ o.done | doneLabel }}
 					</td>
 					<td>
-						<a v-link="{name: 'bill-pay.update', params: {index:index}}">Editar</a>
+						<a v-link="{name: 'bill-pay.update', params: {id:o.id}}">Editar</a>
 						|
 						<a href="#" @click.prevent="deleteBill(o)">Excluir</a>
 					</td>
@@ -38,13 +37,23 @@ window.billPayListComponent = Vue.extend({
 	`,
 	data: function(){
 		return {
-			bills: this.$root.$children[0].billsPay
+			bills: []
 		};
+	},
+	created: function(){
+		var self = this;
+		Bill.query().then(function(response){
+			self.bills = response.data;
+		});
 	},
 	methods: {
 		deleteBill: function(bill) {
             if(confirm('Deseja realmente EXCLUIR esta conta ?')){
-            	this.$root.$children[0].billsPay.$remove(bill);
+				var self = this;
+				Bill.delete({id: bill.id}).then(function(response){
+					self.bills.$remove(bill);
+					self.$dispatch('change-info');
+				});
 			}
         }
 	}
