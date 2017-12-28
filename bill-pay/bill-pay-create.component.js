@@ -52,12 +52,12 @@ window.billPayCreateComponent = Vue.extend({
 			var self = this;
 
 			if(this.formType == 'insert'){
-				Bill.save({}, this.bill).then(function(response){
+				BillPay.save({}, this.bill).then(function(response){
 					self.$dispatch('change-info');
 					self.$router.go({name: 'bill-pay.list'});
 				});
 			}else{
-				Bill.update({id: this.bill.id}, this.bill).then(function(response){
+				BillPay.update({id: this.bill.id}, this.bill).then(function(response){
 					self.$dispatch('change-info');
 					self.$router.go({name: 'bill-pay.list'});
 				});	
@@ -65,7 +65,7 @@ window.billPayCreateComponent = Vue.extend({
 		},
 		getBill: function(id){
 			var self = this;
-			Bill.get({id: id}).then(function(response){
+			BillPay.get({id: id}).then(function(response){
 				self.bill = response.data;
 			});	
 		}

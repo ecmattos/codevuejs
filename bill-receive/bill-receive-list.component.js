@@ -13,7 +13,7 @@ window.billReceiveListComponent = Vue.extend({
 					<th>Vencimento</th>
 					<th>Nome</th>
 					<th>Valor</th>
-					<th>Paga ?</th>
+					<th>Recebida ?</th>
 					<th>Ações</th>
 				</tr>
 			</thead>
@@ -42,7 +42,7 @@ window.billReceiveListComponent = Vue.extend({
 	},
 	created: function(){
 		var self = this;
-		Bill.query().then(function(response){
+		BillReceive.query().then(function(response){
 			self.bills = response.data;
 		});
 	},
@@ -50,7 +50,7 @@ window.billReceiveListComponent = Vue.extend({
 		deleteBill: function(bill) {
             if(confirm('Deseja realmente EXCLUIR esta conta ?')){
 				var self = this;
-				Bill.delete({id: bill.id}).then(function(response){
+				BillReceive.delete({id: bill.id}).then(function(response){
 					self.bills.$remove(bill);
 					self.$dispatch('change-info');
 				});

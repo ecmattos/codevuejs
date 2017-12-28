@@ -43,13 +43,13 @@ window.billPayComponent = Vue.extend({
 		},
 		updateStatus: function(){
 			var self = this;
-			Bill.query().then(function(response){
+			BillPay.query().then(function(response){
 				self.calculateStatus(response.data);
 			});
 		},
 		updateTotal: function(){
 			var self = this;
-			Bill.total().then(function(response){
+			BillPay.total().then(function(response){
 				self.total = response.data.total;
 			});
 		}

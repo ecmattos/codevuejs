@@ -42,7 +42,7 @@ window.billPayListComponent = Vue.extend({
 	},
 	created: function(){
 		var self = this;
-		Bill.query().then(function(response){
+		BillPay.query().then(function(response){
 			self.bills = response.data;
 		});
 	},
@@ -50,7 +50,7 @@ window.billPayListComponent = Vue.extend({
 		deleteBill: function(bill) {
             if(confirm('Deseja realmente EXCLUIR esta conta ?')){
 				var self = this;
-				Bill.delete({id: bill.id}).then(function(response){
+				BillPay.delete({id: bill.id}).then(function(response){
 					self.bills.$remove(bill);
 					self.$dispatch('change-info');
 				});

@@ -1,10 +1,15 @@
 Vue.http.options.root = 'http://localhost:8000/api';
 
-window.Bill = Vue.resource('bills{/id}', {}, {
+window.BillPay = Vue.resource('bills-pay{/id}', {}, {
 	total: {
 		method: 'GET',
-		url: 'bills/total'
+		url: 'bills-pay/total'
 	}
 });
 
-
+window.BillReceive = Vue.resource('bills-receive{/id}', {}, {
+	total: {
+		method: 'GET',
+		url: 'bills-receive/total'
+	}
+});

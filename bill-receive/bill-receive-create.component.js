@@ -26,12 +26,7 @@ window.billReceiveCreateComponent = Vue.extend({
 		return {
 			formType: 'insert',
 			names: [
-				'Conta de luz',
-				'Conta de água',
-				'Conta de telefone',
-				'Condomínio',
-				'Mercado',
-				'Gasolina'
+				'Salário'
 			],
 			bill:  {
 				date_due: '',
@@ -52,12 +47,12 @@ window.billReceiveCreateComponent = Vue.extend({
 			var self = this;
 
 			if(this.formType == 'insert'){
-				Bill.save({}, this.bill).then(function(response){
+				BillReceive.save({}, this.bill).then(function(response){
 					self.$dispatch('change-info');
 					self.$router.go({name: 'bill-receive.list'});
 				});
 			}else{
-				Bill.update({id: this.bill.id}, this.bill).then(function(response){
+				BillReceive.update({id: this.bill.id}, this.bill).then(function(response){
 					self.$dispatch('change-info');
 					self.$router.go({name: 'bill-receive.list'});
 				});	
@@ -65,7 +60,7 @@ window.billReceiveCreateComponent = Vue.extend({
 		},
 		getBill: function(id){
 			var self = this;
-			Bill.get({id: id}).then(function(response){
+			BillReceive.get({id: id}).then(function(response){
 				self.bill = response.data;
 			});	
 		}
