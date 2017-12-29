@@ -1,6 +1,6 @@
-window.billReceiveComponent = Vue.extend({
+window.billPayComponent = Vue.extend({
 	components: {
-		'menu-component': billReceiveMenuComponent
+		'menu-component': billPayMenuComponent
 	},
 	template: `
 		<style type="text/css">
@@ -17,45 +17,43 @@ window.billReceiveComponent = Vue.extend({
 		<menu-component></menu-component>
 		<router-view></router-view>
 	`,
-	data: function(){
+	data(){
 		return {
-			title: "Contas a Receber",
+			title: "Contas a Pagar",
 			status: false,
 			total: 0
 		};
 	},
-	created: function(){
+	created(){
 		this.updateStatus();
 		this.updateTotal();
 	},
 	methods: {
-		calculateStatus: function(bills){
+		calculateStatus(bills){
 			if(!bills.length){
 				this.status = false;
 			}
-			var count = 0;
-			for(var i in bills){
+			let count = 0;
+			for(let i in bills){
 				if(!bills[i].done){
 					count++;
 				}
 			}
 			this.status = count;
 		},
-		updateStatus: function(){
-			var self = this;
-			BillReceive.query().then(function(response){
-				self.calculateStatus(response.data);
+		updateStatus(){
+			BillPay.query().then((response) => {
+				this.calculateStatus(response.data);
 			});
 		},
-		updateTotal: function(){
-			var self = this;
-			BillReceive.total().then(function(response){
-				self.total = response.data.total;
+		updateTotal(){
+			BillPay.total().then((response) => {
+				this.total = response.data.total;
 			});
 		}
 	},
 	events: {
-		'change-info': function(){
+		'change-info'(){
 			this.updateStatus();
 			this.updateTotal();
 		}

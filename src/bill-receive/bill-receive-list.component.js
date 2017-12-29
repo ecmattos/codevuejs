@@ -22,7 +22,7 @@ window.billReceiveListComponent = Vue.extend({
 					<td>{{ index + 1 }}</td>
 					<td>{{ o.date_due }}</td>
 					<td>{{ o.name }}</td>
-					<td>{{ o.value | currency 'R$ ' 2}}</td>
+					<td>{{ o.value | currencyFormat }}</td>
 					<td class="minha-classe" :class="{'pago': o.done, 'nao-pago': !o.done}">
 						{{ o.done | doneLabel }}
 					</td>
@@ -35,24 +35,22 @@ window.billReceiveListComponent = Vue.extend({
 			</tbody>
 		</table>
 	`,
-	data: function(){
+	data(){
 		return {
 			bills: []
 		};
 	},
-	created: function(){
-		var self = this;
-		BillReceive.query().then(function(response){
-			self.bills = response.data;
+	created(){
+		BillReceive.query().then((response) =>{
+			this.bills = response.data;
 		});
 	},
 	methods: {
-		deleteBill: function(bill) {
+		deleteBill(bill) {
             if(confirm('Deseja realmente EXCLUIR esta conta ?')){
-				var self = this;
-				BillReceive.delete({id: bill.id}).then(function(response){
-					self.bills.$remove(bill);
-					self.$dispatch('change-info');
+				BillReceive.delete({id: bill.id}).then((response) =>{
+					this.bills.$remove(bill);
+					this.$dispatch('change-info');
 				});
 			}
         }
