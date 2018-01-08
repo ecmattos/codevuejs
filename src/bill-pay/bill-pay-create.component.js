@@ -35,12 +35,7 @@ window.billPayCreateComponent = Vue.extend({
 		return {
 			formType: 'insert',
 			names: names,
-			bill:  {
-				date_due: '',
-				name: '',
-				value: 0,
-				done: false
-			}
+			bill:  new classBillPay()
 		};
 	},
 	created(){
@@ -51,7 +46,7 @@ window.billPayCreateComponent = Vue.extend({
 	},
 	methods: {
 		submit(){
-			var data = Vue.util.extend(this.bill, {date_due: this.getDateDue(this.bill.date_due)})
+			var data = this.bill.toJSON();
 			if(this.formType == 'insert'){
 				BillPay.save({}, data).then((response) => {
 					this.$dispatch('change-info');
@@ -66,7 +61,7 @@ window.billPayCreateComponent = Vue.extend({
 		},
 		getBill(id){
 			BillPay.get({id: id}).then((response) => {
-				this.bill = response.data;
+				this.bill = new classBillPay(response.data);
 			});	
 		},
 		getDateDue(date_due){
