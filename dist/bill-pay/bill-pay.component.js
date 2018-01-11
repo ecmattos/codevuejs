@@ -1,10 +1,7 @@
-'use strict';
+"use strict";
 
 window.billPayComponent = Vue.extend({
-	components: {
-		'menu-component': billPayMenuComponent
-	},
-	template: '\n\t\t<style type="text/css">\n\t\t\t.green { color: green; }\n\t\t\t.gray { color: gray; }\n\t\t\t.red { color: red; }\n\t\t</style>\n\n\t\t<h1>{{ title }}</h1>\n\t\t\n\t\t<h3 :class="{\'gray\':status === false, \'green\':status === 0, \'red\':status > 0}">{{ status | statusGeneral }}</h3>\n\t\t\n\t\t<h3> {{ total | currencyFormat }}</h3>\n\t\t<menu-component></menu-component>\n\t\t<router-view></router-view>\n\t',
+	template: "\n\t\t<div class=\"section\">\n\t\t\t<div class=\"container\">\n\t\t\t\t<h4>{{ title }}</h4>\n\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col s7\">\n\t\t\t\t\t\t<div class=\"card z-depth-2\" :class=\"{'gray':status === false, 'green':status === 0, 'red':status > 0}\">\n\t\t\t\t\t\t\t<div class=\"card-content white-text\">\n\t\t\t\t\t\t\t\t<p class=\"card-title\">\n\t\t\t\t\t\t\t\t\t<i class=\"material-icons\">account_balance</i>\n\t\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t\t<h4>{{ status | statusGeneral }}</h4>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t<div class=\"col s5\">\n\t\t\t\t\t\t<div class=\"card z-depth-2\">\n\t\t\t\t\t\t\t<div class=\"card-content\">\n\t\t\t\t\t\t\t\t<p class=\"card-title\">\n\t\t\t\t\t\t\t\t\t<i class=\"material-icons\">payment</i>\n\t\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t\t<h4> {{ total | currencyFormat }}</h4>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<router-view></router-view>\n\t",
 	data: function data() {
 		return {
 			title: "Contas a Pagar",

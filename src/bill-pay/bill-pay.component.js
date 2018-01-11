@@ -1,20 +1,35 @@
 window.billPayComponent = Vue.extend({
-	components: {
-		'menu-component': billPayMenuComponent
-	},
 	template: `
-		<style type="text/css">
-			.green { color: green; }
-			.gray { color: gray; }
-			.red { color: red; }
-		</style>
+		<div class="section">
+			<div class="container">
+				<h4>{{ title }}</h4>
 
-		<h1>{{ title }}</h1>
-		
-		<h3 :class="{'gray':status === false, 'green':status === 0, 'red':status > 0}">{{ status | statusGeneral }}</h3>
-		
-		<h3> {{ total | currencyFormat }}</h3>
-		<menu-component></menu-component>
+				<div class="row">
+					<div class="col s7">
+						<div class="card z-depth-2" :class="{'gray':status === false, 'green':status === 0, 'red':status > 0}">
+							<div class="card-content white-text">
+								<p class="card-title">
+									<i class="material-icons">account_balance</i>
+								</p>
+								<h4>{{ status | statusGeneral }}</h4>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col s5">
+						<div class="card z-depth-2">
+							<div class="card-content">
+								<p class="card-title">
+									<i class="material-icons">payment</i>
+								</p>
+								<h4> {{ total | currencyFormat }}</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<router-view></router-view>
 	`,
 	data(){

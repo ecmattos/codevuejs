@@ -3,7 +3,7 @@
 var names = ['Conta de luz', 'Conta de água', 'Conta de telefone', 'Condomínio', 'Mercado', 'Gasolina'];
 
 window.billPayCreateComponent = Vue.extend({
-	template: '\n\t\t<form name="form" @submit.prevent="submit">\n\t\t\t<label>Vencimento:</label>\n\t\t\t\t<input type="text" v-model="bill.date_due | dateFormat">\n\t\t\t\t<br>\n\t\t\t\t<br>\n\t\t\t<label>Nome:</label>\n\t\t\t\t<select  v-model="bill.name">\n\t\t\t\t\t<option v-for="o in names" :value="o">{{ o }}</option>\n\t\t\t\t</select>\n\t\t\t\t<br>\n\t\t\t\t<br>\n\t\t\t<label>Valor:</label>\n\t\t\t\t<input type="text" v-model="bill.value | currencyFormat">\n\t\t\t\t<br>\n\t\t\t\t<br>\n\t\t\t<label>Pago ?:</label>\n\t\t\t\t<input type="checkbox" v-model="bill.done">\n\t\t\t\t<br>\n\t\t\t\t<br>\n\t\t\t<input type="submit" value="Enviar">\n\t\t</form>\n\t',
+	template: '\n\t\t<div class="container">\n\t\t\t<div class="row">\n\t\t\t\t<form name="form" @submit.prevent="submit">\n\t\t\t\t\t<div class="row">\n\t\t\t\t\t\t<div class="input-field col s4">\n\t\t\t\t\t\t\t<label class="active">Vencimento</label>\n\t\t\t\t\t\t\t<input type="text" v-model="bill.date_due | dateFormat" class="datepicker" id="date_due" placeholder="Informe a data">\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<div class="input-field col s8">\n\t\t\t\t\t\t\t<label>Valor</label>\n\t\t\t\t\t\t\t<input type="text" v-model="bill.value | currencyFormat">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="row">\n\t\t\t\t\t\t<div class="input-field col s8">\n\t\t\t\t\t\t\t<select v-model="bill.name" id="name" class="browser-default">\n\t\t\t\t\t\t\t\t<option value="" disabled selected>Escolha um nome</option>\n\t\t\t\t\t\t\t\t<option v-for="o in names" :value="o">{{ o }}</option>\n\t\t\t\t\t\t\t</select>\n\t\t\t\t\t\t\t<label class="active">Nome</label>\t\t\t\t\t\t\t\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t\t<div class="input-field col s4">\n\t\t\t\t\t\t\t<input type="checkbox" v-model="bill.done" id="pago">\n\t\t\t\t\t\t\t<label for="pago">Pago ?</label>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class="row">\n\t\t\t\t\t\t<input type="submit" value="Enviar" class="btn btn-large">\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t',
 	data: function data() {
 		return {
 			formType: 'insert',
@@ -16,6 +16,14 @@ window.billPayCreateComponent = Vue.extend({
 			this.formType = 'update';
 			this.getBill(this.$route.params.id);
 		}
+		$(document).ready(function () {
+			$('#name').material_select();
+			$('.datepicker').pickadate({
+				format: 'dd/mm/yyyy',
+				selectMonths: true,
+				selectYears: 10
+			});
+		});
 	},
 
 	methods: {

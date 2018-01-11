@@ -3,10 +3,6 @@
 var router = new VueRouter();
 
 router.map({
-	'/': {
-		name: 'dashboard',
-		component: dashboardComponent
-	},
 	'/bill-pays': {
 		component: billPayComponent,
 		subRoutes: {
