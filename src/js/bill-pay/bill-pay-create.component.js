@@ -10,33 +10,38 @@ const names = [
 window.billPayCreateComponent = Vue.extend({
 	template: `
 		<div class="container">
+			<h4 v-if="formType === 'insert'">Nova Conta</h4>
+			<h4 v-else>Alteração Conta</h4>
 			<div class="row">
 				<form name="form" @submit.prevent="submit">
 					<div class="row">
 						<div class="input-field col s4">
 							<label class="active">Vencimento</label>
-							<input type="text" v-model="bill.date_due | dateFormat" class="datepicker" id="date_due" placeholder="Informe a data">
+							<input type="text" v-model="bill.date_due | dateFormat" class="datepicker" id="date_due" placeholder="Informe a data" required>
 						</div>
 
 						<div class="input-field col s8">
-							<label>Valor</label>
+							<label class="active">Valor</label>
 							<input type="text" v-model="bill.value | currencyFormat">
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="input-field col s8">
-							<select v-model="bill.name" id="name" class="browser-default">
-								<option value="" disabled selected>Escolha um nome</option>
-								<option v-for="o in names" :value="o">{{ o }}</option>
+							<label class="active">Nome</label>
+				            <select v-model="bill.name">
+				               	<option value="" disabled selected>Selecione um nome</option>
+				               	<option v-for="o in names" :value="o">{{ o }}</option>
 							</select>
-							<label class="active">Nome</label>							
 						</div>
-					
-						<div class="input-field col s4">
-							<input type="checkbox" v-model="bill.done" id="pago">
-							<label for="pago">Pago ?</label>
-						</div>
+						<div class="switch">
+						    <label>
+						      Não Paga
+						      <input type="checkbox" v-model="bill.done">
+						      <span class="lever"></span>
+						      Paga
+						    </label>
+						  </div>
 					</div>
 
 					<div class="row">
@@ -59,7 +64,7 @@ window.billPayCreateComponent = Vue.extend({
 			this.getBill(this.$route.params.id);
 		}
 		$(document).ready(function(){
-			$('#name').material_select();
+			$('select').material_select();
 			$('.datepicker').pickadate({
 				format: 'dd/mm/yyyy',
 				selectMonths: true,
@@ -72,11 +77,13 @@ window.billPayCreateComponent = Vue.extend({
 			var data = this.bill.toJSON();
 			if(this.formType == 'insert'){
 				BillPay.save({}, data).then((response) => {
+					Materialize.toast("Conta incluída com sucesso !", 4000);
 					this.$dispatch('change-info');
 					this.$router.go({name: 'bill-pay.list'});
 				});
 			}else{
 				BillPay.update({id: this.bill.id}, data).then((response) => {
+					Materialize.toast("Conta atualizada com sucesso !", 4000);
 					this.$dispatch('change-info');
 					this.$router.go({name: 'bill-pay.list'});
 				});	
